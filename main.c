@@ -10,6 +10,7 @@ void sigintHandler(int sig_num)
     signal(SIGINT, sigintHandler);
     printf("\n Goodbye! \n"); 
     system("stty icanon echo");
+    printf("\e[?25h");
     exit(0);
     fflush(stdout); 
 } 
@@ -25,7 +26,8 @@ int main() {
 
     printHeader();
     initBoard(&b);
-    addNumber(&b, 3, 2, 4);
+    addNumber(&b, 3, 2, 1024);
+    // addNumber(&b, 3, 1, 1024);
 
     while (!b.win && !b.lose) {
         printBoard(&b);

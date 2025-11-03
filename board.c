@@ -6,22 +6,20 @@ void initBoard(Board *b)
 {
     int x, y;
 
-    printf("INFO Initializing board...\n");
-    
     for (x=0; x<ROWS; x++)
     {
         for (y=0; y<COLUMNS; y++)
         {
-            b -> cells[x][y].x = x;
-            b -> cells[x][y].y = y;
-            b -> cells[x][y].value = 0;
+            b->cells[x][y].x = x;
+            b->cells[x][y].y = y;
+            b->cells[x][y].value = 0;
         }
     }
 
-    b -> win = 0;
-    b -> lose = 0;
-    b -> score = 0;
-    b -> lastScoreUpdate = 0;
+    b->win = 0;
+    b->lose = 0;
+    b->score = 0;
+    b->lastScoreUpdate = 0;
 }
 
 void printBoard(Board *b)
@@ -30,12 +28,12 @@ void printBoard(Board *b)
     int x, y, value;
     
     system("clear");
-    printf("Score: %i", b -> score);
+    printf("Score: %i", b->score);
     
-    if (b -> lastScoreUpdate != 0)
+    if (b->lastScoreUpdate != 0)
     {
         printf(" (+%d)", b->lastScoreUpdate);
-        b -> lastScoreUpdate = 0;
+        b->lastScoreUpdate = 0;
     }
     
     printf("\n");
@@ -63,17 +61,32 @@ void printBoard(Board *b)
     }
     printf("+--------+--------+--------+--------+\n");
     printf("(a) Left (d) Right (w) Up (s) Down\n");
+    printf("Win: %d\n", b->win);
+}
+
+void updateCell(Board *b, int x, int y, int value)
+{
+    if (value == 2048)
+    {
+        b->win = 1;
+    }
+    b->cells[x][y].value = value;
 }
 
 void addNumber(Board *b, int x, int y, int value)
 {
-    b -> cells[x][y].value = value;
+    b->cells[x][y].value = value;
+}
+
+void clearCell(Board *b, int x, int y)
+{
+    b->cells[x][y].value = 0;
 }
 
 void updateScore(Board *b, int n)
 {
-    b -> score += n;
-    b -> lastScoreUpdate += n; 
+    b->score += n;
+    b->lastScoreUpdate += n; 
 };
     
 void spawnNumber(Board *b)
@@ -85,7 +98,7 @@ void spawnNumber(Board *b)
     {
         for (y=0; y<COLUMNS; y++)
         {
-            if (!b -> cells[x][y].value)
+            if (!b->cells[x][y].value)
             {
                 possibleCells[count].col = y;
                 possibleCells[count].row = x;
@@ -104,7 +117,7 @@ void moveLeft(Board *b)
     int x, y;
     for (x=0; x<ROWS; x++)
     {
-        Cell *row = b -> cells[x];
+        Cell *row = b->cells[x];
         for (y=0; y<COLUMNS; y++) 
         {
             if (row[y].value != 0)
@@ -112,8 +125,8 @@ void moveLeft(Board *b)
                 int count = 1;
                 while (y-count != -1 && row[y-count].value == 0)
                 {
-                    row[y-count].value = row[y-count+1].value;
-                    row[y-count+1].value = 0;
+                    updateCell(b, x, y-count, row[y-count+1].value);
+                    clearCell(b, x, y-count+1);
                     count++;
                 }
             }
@@ -124,8 +137,8 @@ void moveLeft(Board *b)
             if (row[y].value == row[y-1].value)
             {
                 updateScore(b, row[y].value);
-                row[y-1].value *= 2;
-                row[y].value = 0;
+                updateCell(b, x, y, row[y-1].value *= 2);
+                clearCell(b, x, y);
             }
         }
 
@@ -136,8 +149,8 @@ void moveLeft(Board *b)
                 int count = 1;
                 while (y-count != -1 && row[y-count].value == 0)
                 {
-                    row[y-count].value = row[y-count+1].value;
-                    row[y-count+1].value = 0;
+                    updateCell(b, x, y-count, row[y-count+1].value);
+                    clearCell(b, x, y-count+1);
                     count++;
                 }
             }
@@ -174,14 +187,14 @@ void transposition(Board *b)
     {
         for (y=0; y<COLUMNS; y++)
         {
-            tb.cells[y][x].value = b -> cells[x][y].value;
+            updateCell(&tb, y, x, b->cells[x][y].value);
         }
     }
     for (x=0; x<ROWS; x++)
     {
         for (y=0; y<COLUMNS; y++)
         {
-            b -> cells[x][y].value = tb.cells[x][y].value; 
+            updateCell(b, x, y, tb.cells[x][y].value);
         }
     }
 }
