@@ -10,8 +10,6 @@ void initBoard(Board *b)
     {
         for (y=0; y<COLUMNS; y++)
         {
-            b->cells[x][y].x = x;
-            b->cells[x][y].y = y;
             b->cells[x][y].value = 0;
         }
     }
@@ -61,7 +59,6 @@ void printBoard(Board *b)
     }
     printf("+--------+--------+--------+--------+\n");
     printf("(a) Left (d) Right (w) Up (s) Down\n");
-    printf("Win: %d\n", b->win);
 }
 
 void updateCell(Board *b, int x, int y, int value)
@@ -204,6 +201,9 @@ void transposition(Board *b)
 void handleInput(Board *b, char ui)
 {
     int x, y;
+
+    b->moves += 1;
+    
     switch (ui)
     {
         case 'a':

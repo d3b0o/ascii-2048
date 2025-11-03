@@ -13,8 +13,6 @@
 #define WHTB "\e[47m"
 
 typedef struct {
-    int x;
-    int y;
     int value;
 } Cell;
 
@@ -24,6 +22,7 @@ typedef struct {
     int lastScoreUpdate;
     int win;
     int lose;
+    int moves;
 } Board;
 
 typedef struct {

@@ -27,7 +27,7 @@ int main() {
     printHeader();
     initBoard(&b);
     addNumber(&b, 3, 2, 1024);
-    // addNumber(&b, 3, 1, 1024);
+    addNumber(&b, 3, 1, 1024);
 
     while (!b.win && !b.lose) {
         printBoard(&b);
@@ -35,6 +35,21 @@ int main() {
         handleInput(&b, ui);
         spawnNumber(&b);
     }
+    
+    printBoard(&b);
+
+    if (b.win)
+    {
+        printf("\nYou win!\n");
+    }
+    else
+    {
+        printf("\nYou lose!\n");
+    }
+
+    printf("========\n");
+    printf("[+] Score: %d\n", b.score);
+    printf("[+] Moves: %d\n", b.moves);
 
     return 0;
 }
