@@ -11,11 +11,6 @@ int main() {
     printHeader();
     initBoard(&b);
     addNumber(&b, 3, 2, 4);
-    addNumber(&b, 3, 1, 4);
-    addNumber(&b, 2, 1, 4);
-    // addNumber(&b, 3, 0, 4);
-    // addNumber(&b, 3, 1, 4);
-    // addNumber(&b, 3, 2, 4);
 
     while (!b.win && !b.lose) {
         printBoard(&b);

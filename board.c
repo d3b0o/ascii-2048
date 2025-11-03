@@ -44,22 +44,22 @@ void printBoard(Board *b)
 
     for (x=0; x<ROWS; x++)
     {
-        printf("+-----+-----+-----+-----+\n");
+        printf("+--------+--------+--------+--------+\n");
         printf("|");
         for (y=0; y<COLUMNS; y++)
         {
             value = b->cells[x][y].value;
             if (value)
             {
-                printf("  %d  |", value);
+                printf("  %4.d  |", value);
             } else 
             {
-                printf("     |");
+                printf("        |");
             }
         }
         printf("\n");
     }
-    printf("+-----+-----+-----+-----+\n");
+    printf("+--------+--------+--------+--------+\n");
 }
 
 void addNumber(Board *b, int x, int y, int value)
@@ -67,6 +67,12 @@ void addNumber(Board *b, int x, int y, int value)
     b -> cells[x][y].value = value;
 }
 
+void updateScore(Board *b, int n)
+{
+    b -> score += n;
+    b -> lastScoreUpdate += n; 
+};
+    
 void spawnNumber(Board *b)
 {
     Point possibleCells[ROWS * COLUMNS];
@@ -114,6 +120,7 @@ void moveLeft(Board *b)
         {
             if (row[y].value == row[y-1].value)
             {
+                updateScore(b, row[y].value);
                 row[y-1].value *= 2;
                 row[y].value = 0;
             }
@@ -137,8 +144,7 @@ void moveLeft(Board *b)
 
 void invertHorizontal(Board *b)
 {
-    printf("t: %d\n", COLUMNS);
-    int x, y, temp;
+    int x, y;
     int n = COLUMNS / 2;
     int t = COLUMNS - 1;
 
@@ -146,9 +152,12 @@ void invertHorizontal(Board *b)
     {
         for (y=0; y<n; y++)
         {
-            temp = b -> cells[x][y].value;
-            b -> cells[x][y].value = b -> cells[x][t - y].value;
-            b -> cells[x][t- y].value = temp;
+            int *j = &b->cells[x][y].value;
+            int *i = &b->cells[x][t-y].value;
+
+            *j ^= *i;
+            *i ^= *j;
+            *j ^= *i;
         }
     }
 }
@@ -173,6 +182,8 @@ void transposition(Board *b)
         }
     }
 }
+
+    
 
 void handleInput(Board *b, char ui)
 {

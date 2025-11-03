@@ -13,7 +13,6 @@ char userMove()
 
     while (ui != 'w' && ui != 'a' && ui != 's' && ui != 'd' && ui != 'h')
     {
-        printf("Invalid\n");
         ui = getchar();
     }
 

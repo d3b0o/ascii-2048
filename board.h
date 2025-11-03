@@ -25,11 +25,15 @@ typedef struct {
 
 void initBoard(Board *b);
 void printBoard(Board *b);
+
 void addNumber(Board *b, int x, int y, int value);
+void updateScore(Board *b, int n);
+
 void spawnNumber(Board *b);
-void handleInput(Board *b, char ui);
 void moveLeft(Board *b);
 void invertHorizontal(Board *b);
+void transposition(Board *b);
+void handleInput(Board *b, char ui);
 
 #endif
 
