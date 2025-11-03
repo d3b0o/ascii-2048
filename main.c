@@ -5,13 +5,18 @@
 #include "board.h"
 #include "game.h"
 
-void sigintHandler(int sig_num) 
-{ 
-    signal(SIGINT, sigintHandler);
+void close()
+{
     printf("\n Goodbye! \n"); 
     system("stty icanon echo");
     printf("\e[?25h");
     exit(0);
+}
+
+void sigintHandler(int sig_num) 
+{ 
+    signal(SIGINT, sigintHandler);
+    close();
     fflush(stdout); 
 } 
 
@@ -26,8 +31,9 @@ int main() {
 
     printHeader();
     initBoard(&b);
-    addNumber(&b, 3, 2, 1024);
-    addNumber(&b, 3, 1, 1024);
+    // addNumber(&b, 3, 2, 1024);
+    // addNumber(&b, 3, 1, 1024);
+    addNumber(&b, 3, 1, 4);
 
     while (!b.win && !b.lose) {
         printBoard(&b);
@@ -48,8 +54,8 @@ int main() {
     }
 
     printf("========\n");
-    printf("[+] Score: %d\n", b.score);
-    printf("[+] Moves: %d\n", b.moves);
+ 
+    close();
 
     return 0;
 }
