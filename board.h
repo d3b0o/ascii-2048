@@ -3,6 +3,14 @@
 
 #define ROWS 4
 #define COLUMNS 4
+#define BLKB "\e[40m"
+#define REDB "\e[41m"
+#define GRNB "\e[42m"
+#define YELB "\e[43m"
+#define BLUB "\e[44m"
+#define MAGB "\e[45m"
+#define CYNB "\e[46m"
+#define WHTB "\e[47m"
 
 typedef struct {
     int x;

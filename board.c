@@ -45,6 +45,7 @@ void printBoard(Board *b)
     for (x=0; x<ROWS; x++)
     {
         printf("+--------+--------+--------+--------+\n");
+        printf("|        |        |        |        |\n");
         printf("|");
         for (y=0; y<COLUMNS; y++)
         {
@@ -58,8 +59,10 @@ void printBoard(Board *b)
             }
         }
         printf("\n");
+        printf("|        |        |        |        |\n");
     }
     printf("+--------+--------+--------+--------+\n");
+    printf("(a) Left (d) Right (w) Up (s) Down\n");
 }
 
 void addNumber(Board *b, int x, int y, int value)

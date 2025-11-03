@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "game.h"
+#include <signal.h>
 
 void printHeader()
 {
@@ -10,12 +12,10 @@ char userMove()
 {
     char ui;
     ui = getchar();
-
-    while (ui != 'w' && ui != 'a' && ui != 's' && ui != 'd' && ui != 'h')
+    while (ui != 'w' && ui != 'a' && ui != 's' && ui != 'd')
     {
         ui = getchar();
     }
-
     return ui;
 }
 
